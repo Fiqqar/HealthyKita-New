@@ -7,8 +7,8 @@
                     <p class="brand">HealthyKita.</p>
                     <div class="nav-wrapper">
                         <nav :class="['nav-list', { show: isMenuOpen }]">
-                            <router-link to="/home" class="nav-link">Beranda</router-link>
-                            <router-link to="/quiz/:start" class="nav-link">Kuis</router-link>
+                            <router-link to="/home" class="nav-link">Home</router-link>
+                            <router-link to="/quiz/start" class="nav-link">Quiz</router-link>
                         </nav>
                         <button class="menu-toggle" @click="toggleMenu">
                             <i class="fas fa-bars"></i>
@@ -23,6 +23,11 @@
                                             <img :src="require('/src/assets/download (1).jpg')" alt="Foto Profil"
                                                 class="card-profile-picture" />
                                         </div>
+                                        <div class="notification-icon">
+                    <router-link to="/notification"><i class="fa fa-bell"></i>
+                      <span class="notification-count">3</span></router-link>
+                    
+                  </div>
                                         <span class="nickname">Nama Panggilan</span>
                                         <div class="social-icons">
                                             <a href="#" class="social-icon"><i class="fa-brands fa-facebook"></i></a>
@@ -175,7 +180,45 @@ export default {
     padding: 0;
     box-sizing: border-box;
 }
+.notification-icon {
+    position: absolute;
+    top: 23px;
+    right: 23px;
+    font-size: 20px;
+    color: #fff;
+    background-color: #188754;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
 
+.notification-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #fff;
+    color: #e74c3c;
+    font-size: 12px;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+.notification-icon:hover {
+  transform: scale(1.1); 
+}
+.notification-icon:active{
+  transform: scale(0.95); 
+}
 body {
     background-color: #F5FFFA;
     color: black;

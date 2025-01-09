@@ -6,29 +6,29 @@
                 <div class="container">
                     <p class="brand">HealthyKita.</p>
                     <div class="nav-wrapper">
-                        <nav :class="['nav-list', { show: isMenuOpen }]">
-                            <router-link to="/home" class="nav-link">Beranda</router-link>
-                            <router-link to="/quiz/start" class="nav-link">Kuis</router-link>
+                        <nav :class="['nav-list', { show: isMenuOpen }]" aria-label="Main Navigation">
+                            <router-link to="/home" class="nav-link">Home</router-link>
+                            <router-link to="/quizstart" class="nav-link">Quiz</router-link>
                         </nav>
                         <button class="menu-toggle" @click="toggleMenu">
                             <i class="fas fa-bars"></i>
                         </button>
                         <div class="user-profile" @click="toggleProfileDropdown">
-                            <img :src="require('/src/assets/download (1).jpg')" alt="Foto Profil"
+                            <img :src="require('/src/assets/download (1).jpg')" alt="Profile Picture"
                                 class="profile-picture" />
                             <div :class="['dropdown-menu', { show: isProfileDropdownOpen }]">
                                 <div class="dropdown-content">
                                     <div class="profile-card">
                                         <div class="profile-card-header">
-                                            <img :src="require('/src/assets/download (1).jpg')" alt="Foto Profil"
+                                            <img :src="require('/src/assets/download (1).jpg')" alt="Profile Picture"
                                                 class="card-profile-picture" />
                                         </div>
                                         <div class="notification-icon">
-                    <router-link to="/notification"><i class="fa fa-bell"></i>
-                      <span class="notification-count">3</span></router-link>
-                    
-                  </div>
-                                        <span class="nickname">Nama Panggilan</span>
+                                            <router-link to="/notification"><i class="fa fa-bell"></i>
+                                                <span class="notification-count">3</span></router-link>
+
+                                        </div>
+                                        <span class="nickname">User.</span>
                                         <div class="social-icons">
                                             <a href="#" class="social-icon"><i class="fa-brands fa-facebook"></i></a>
                                             <a href="#" class="social-icon"><i class="fa-brands fa-tiktok"></i></a>
@@ -38,7 +38,7 @@
                                         <div class="profile-stats">
                                             <div class="stat">
                                                 <span class="stat-number">350</span>
-                                                <span class="stat-label">Post</span>
+                                                <span class="stat-label">Unggahan</span>
                                             </div>
                                             <div class="stat">
                                                 <span class="stat-number">200</span>
@@ -54,7 +54,7 @@
                                         <div class="dropdown-divider"></div>
                                         <router-link to="/rank" class="dropdown-item">Daftar Peringkat</router-link>
                                         <div class="dropdown-divider"></div>
-                                        <router-link to="/login" class="dropdown-item">Keluar</router-link>
+                                        <router-link to="/login" class="dropdown-item">Logout</router-link>
                                     </div>
                                 </div>
                             </div>
@@ -62,38 +62,27 @@
                     </div>
                 </div>
             </header>
-
-            <div class="container1">
-                <h1>Posting</h1>
-                <div class="container2">
-                    <label for="judul">Judul</label>
-                    <textarea v-model="judul" id="judul" placeholder="Judul..."></textarea>
+            <main class="content">
+                <div class="article">
+                    <h1>Hasil Audit</h1>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam tenetur ex eum non, rem odit
+                        itaque possimus sapiente nam ab molestiae et laboriosam, est aut earum quasi excepturi maiores
+                        eveniet.
+                    </p>
                 </div>
-                <br>
-                <div class="container2">
-                    <label for="deskripsi">Deskripsi</label>
-                    <textarea v-model="deskripsi" id="deskripsi" placeholder="Deskripsimu..."></textarea>
-                </div>
-                <br>
-                <div class="container2">
-                    <label for="link">Link</label>
-                    <textarea v-model="link" id="link" placeholder="Unggah Link..."></textarea>
-                </div>
-                <br>
-                <button class="btn-apply" @click="applyChanges">Terapkan</button>
-
-                
-            </div>  
+            </main>
         </div>
     </body>
 </template>
+
 
 <script>
 export default {
     data() {
         return {
             isProfileDropdownOpen: false,
-            judul: '',
+            isMenuOpen: false,
         };
     },
     methods: {
@@ -103,35 +92,57 @@ export default {
         toggleMenu() {
             this.isMenuOpen = !this.isMenuOpen;
         },
-        openModal() {
-            this.isModalOpen = true;
+
+        handleClickOutside(event) {
+            const profileDropdown = this.$el.querySelector(".user-profile");
+            const menuDropdown = this.$el.querySelector(".nav-wrapper");
+            if (
+                profileDropdown &&
+                !profileDropdown.contains(event.target) &&
+                this.isProfileDropdownOpen
+            ) {
+                this.isProfileDropdownOpen = false;
+            }
+            if (
+                menuDropdown &&
+                !menuDropdown.contains(event.target) &&
+                this.isMenuOpen
+            ) {
+                this.isMenuOpen = false;
+            }
         },
-        closeModal() {
-            this.isModalOpen = false;
-        },
-       
-        applyChanges() {
-            console.log('Perubahan diterapkan:', {
-                judul: this.judul,
-                deskripsi:this.deskripsi,
-                link:this.link,
-            });
-        }
-    }
+    },
+    mounted() {
+        document.addEventListener("click", this.handleClickOutside);
+    },
+    beforeUnmount() {
+        document.removeEventListener("click", this.handleClickOutside);
+    },
 };
 </script>
+
+
 <style scoped>
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+
+body {
+    background-color: #F5FFFA;
+    color: black;
+    font-family: 'Quicksand', sans-serif;
+    height: 100vh;
+    overflow-x: hidden;
+}
+
 .notification-icon {
     position: absolute;
     top: 23px;
     right: 23px;
     font-size: 20px;
-    color: #fff;
+    color: white;
     background-color: #188754;
     border-radius: 50%;
     width: 30px;
@@ -159,18 +170,13 @@ export default {
     justify-content: center;
     font-weight: bold;
 }
+
 .notification-icon:hover {
-  transform: scale(1.1); 
+    transform: scale(1.1);
 }
-.notification-icon:active{
-  transform: scale(0.95); 
-}
-body {
-    background-color: #F5FFFA;
-    color: black;
-    font-family: 'Quicksand', sans-serif;
-    height: 100vh;
-    overflow-x: hidden;
+
+.notification-icon:active {
+    transform: scale(0.95);
 }
 
 /* Navbar */
@@ -337,6 +343,8 @@ body {
     background-color: #f1f1f1;
 }
 
+
+/* Stats Section */
 .profile-stats {
     display: flex;
     justify-content: space-around;
@@ -358,6 +366,23 @@ body {
     color: #999;
 }
 
+.article {
+    text-align: center;
+    margin-top: 240px;
+}
+
+.article h1 {
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.article p {
+
+    padding-left: 300px;
+    padding-right: 300px;
+
+}
+
 @keyframes fadeInSlideDown {
     from {
         opacity: 0;
@@ -370,258 +395,55 @@ body {
     }
 }
 
+@media (max-width: 941px) {
+    .container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 
+    .nav-list {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background-color: #188754;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        animation: fadeInSlideDown 0.3s ease-in-out forwards;
+    }
 
-.navbar {
-    background-color: #188754;
-    padding: 1rem 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
+    .nav-list.show {
+        display: flex;
+    }
 
-.container1 {
-    max-width: 600px;
-    margin: 0 auto;
-    margin-top: 25px;
-    background-color: white;
-    padding: 20px;
-    border-radius: 40px;
-    box-shadow: 0 6px 8px rgba(86, 86, 86, 0.5);
-}
+    .menu-toggle {
+        display: block;
+    }
 
-h1 {
-    font-size: 1.5em;
-    margin-bottom: 20px;
-}
+    .profile-container {
+        width: 100%;
+        padding: 20px;
+    }
 
+    .profile-details {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
 
-.profile-header {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 20px;
-    position: relative;
-    background-color: #188754;
-    border-radius: 30px;
-    padding: 15px 15px 15px;
-}
+    .profile-details .profile-picture {
+        margin-bottom: 20px;
 
-.profile-image {
-    width: 80px;
-    height: 70px;
-    border-radius: 50%;
-    background-color: #eee;
-    margin-right: 20px;
-    margin-top: 7px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    position: relative;
-    cursor: pointer;
-}
+    }
 
-.profile-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.profile-image input[type="file"] {
-    display: none;
-}
-
-.profile-image .photo-placeholder {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #999;
-    font-weight: 500;
-}
-
-.profile-info {
-
-    flex-grow: 1;
-}
-
-.profile-info input[type="text"] {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #eee;
-    border-radius: 40px;
-    box-sizing: border-box;
-    margin-bottom: 5px;
-    background-color: #fafafa;
-}
-
-.profile-info input[type="text"]:focus {
-    outline: none;
-    border-color: #ddd;
-}
-
-
-.profile-header .chg-btn {
-    background-color: #0095f6;
-    color: white;
-    border: none;
-    border-radius: 50px;
-    padding: 8px 16px;
-    cursor: pointer;
-    font-weight: 500;
-    bottom: 0;
-
-    margin-top: 15px;
-    margin-left: 5px;
-    position: relative;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.profile-header .chg-btn:hover {
-    background-color: #0077cc;
-}
-
-.btn-apply {
-    background-color: #0095f6;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    padding: 8px 16px;
-    cursor: pointer;
-    font-weight: 500;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    position: relative;
-    width: 100px;
-}
-
-.btn-apply:hover {
-    background-color: #0077cc;
-}
-
-
-label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 500;
-    color: #262626;
-}
-
-input[type="text"],
-textarea,
-select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #eee;
-    border-radius: 15px;
-    box-sizing: border-box;
-    margin-bottom: 10px;
-    background-color: #fafafa;
-}
-
-input[type="text"]:focus,
-textarea:focus,
-select:focus {
-    outline: none;
-    border-color: #ddd;
-}
-
-textarea {
-    resize: vertical;
-    min-height: 80px;
-}
-
-select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    color: gray;
-    background-color: white;
-
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 15px;
-
-    background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
-
-    background-repeat: no-repeat;
-    background-position: right 8px center;
-    padding-right: 30px;
-}
-
-
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: fit-content;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.modal-content button {
-    padding: 0.7rem 1rem;
-    border: none;
-    background: none;
-    border-top: 1px solid lightgray;
-    font-size: large;
-    cursor: pointer;
-}
-
-.modal-content button:first-child {
-    border: none;
-}
-
-.modal-content button.red {
-    color: red;
-}
-
-.container2 {
-    background-color: #188754;
-    border-radius: 20px;
-    padding: 15px 15px 13px;
+    .article p {
+        margin-left: 20px;
+        margin-right: 20px;
+        padding-left: 0;
+        padding-right: 0;
+    }
 
 }
 
-.container2 label {
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
-    margin-left: 5px;
-}
-
-.container3 {
-    background-color: #188754;
-    border-radius: 20px;
-    padding: 15px 15px 13px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-.container3 label {
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
-    margin-left: 5px;
-}
-
-@media (max-width: 768px) {
+@media (max-width: 941px) {
     .container {
         flex-direction: row;
         align-items: center;
@@ -646,7 +468,6 @@ select {
         z-index: 100;
         padding: 1rem;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        animation: fadeInSlideDown 0.3s ease-in-out forwards;
 
     }
 
@@ -684,57 +505,11 @@ select {
     }
 }
 
-.button-group {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
+.navbar {
+    background-color: #188754;
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
-
-.chg-btn.remove {
-    background-color: #ff4d4d;
-    color: white;
-}
-
-.chg-btn.remove:hover {
-    background-color: #cc0000;
-}
-.profile-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
-}
-
-.file-label {
-    cursor: pointer;
-}
-
-.file-label input[type="file"] {
-    display: none;
-}
-
-.chg-btn {
-    background-color: #0095f6;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    padding: 8px 16px;
-    cursor: pointer;
-    font-weight: 500;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    text-align: center;
-    transition: background-color 0.3s ease;
-}
-
-.chg-btn:hover {
-    background-color: #0077cc;
-}
-
-.chg-btn.remove {
-    background-color: #f44336;
-}
-
-.chg-btn.remove:hover {
-    background-color: #d32f2f;
-}
-
 </style>

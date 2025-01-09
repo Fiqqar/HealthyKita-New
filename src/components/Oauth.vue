@@ -10,8 +10,14 @@ export default {
         const route = useRoute();
 
         onMounted(() => {
-            const encKey = route.query.encKey;
-            const ivKey = route.query.ivKey;
+            let encKey = route.query.encKey;
+            let ivKey = route.query.ivKey;
+
+            encKey = encKey.split(',').map(Number);
+            ivKey = ivKey.split(',').map(Number);
+
+
+        
             const accessToken = route.query.accessToken;
             const email = route.query.email
 
@@ -55,8 +61,6 @@ export default {
             } else {
                 console.log('encKey or ivKey is missing.');
             }
-
-            window.location.href = `http://localhost:8080/home`
         });
 
     },

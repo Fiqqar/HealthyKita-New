@@ -24,6 +24,7 @@ import QuizStart from '@/components/QuizStart.vue'
 import RankPage from '@/components/RankPage.vue'
 import HasilAnalitik from '@/components/HasilAnalitik.vue'
 import HalamanKhusus from '@/components/HalamanKhusus.vue'
+import AnalisPage from '@/components/AnalisPage.vue'
 const routes = [
     {
         path: '/',
@@ -115,9 +116,14 @@ const routes = [
         component: PostingPage,
     },
     {
-        path: '/oauth',
-        name: 'OAuth',
-        component: OAuth,
+        path: '/oauth/accessToken',
+        name: 'oauthGoogle',
+        component: OAuth
+    },
+    {
+        path: '/view/analys/:uuid',
+        name: 'Analis Page',
+        component: AnalisPage,
     }
 
 ];
