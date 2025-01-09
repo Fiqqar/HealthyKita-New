@@ -115,10 +115,11 @@ const routes = [
         component: PostingPage,
     },
     {
-        path: '/oauth',
-        name: 'OAuth',
-        component: OAuth,
-    }
+        path: '/oauth/accessToken',
+        name: 'oauthGoogle',
+        component: OAuth
+    },
+
 
 ];
 
