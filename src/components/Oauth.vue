@@ -17,13 +17,14 @@ export default {
             ivKey = ivKey.split(',').map(Number);
 
 
-        
+         
             const accessToken = route.query.accessToken;
             const email = route.query.email
 
             if (accessToken) {
+                const now = new Date()
                 localStorage.setItem("oauth", accessToken);
-                Cookies.set('tokenUser', email, { expires: 3500, path: '/' });
+                Cookies.set('tokenUser', now.setTime(now.getTime() + (1 * 60 * 60 * 1000)), { expires: now, path: '/' });
             }
 
             if (encKey && ivKey) {
