@@ -1,5 +1,4 @@
 <template>
-
     <body>
         <div>
             <header class="navbar">
@@ -8,14 +7,13 @@
                     <div class="nav-wrapper">
                         <nav :class="['nav-list', { show: isMenuOpen }]">
                             <router-link to="/home" class="nav-link">Beranda</router-link>
-                            <router-link to="/quiz/start" class="nav-link">Kuis</router-link>
+                            <router-link to="/quiz/:start" class="nav-link">Kuis</router-link>
                         </nav>
                         <button class="menu-toggle" @click="toggleMenu">
                             <i class="fas fa-bars"></i>
                         </button>
                         <div class="user-profile" @click="toggleProfileDropdown">
-                            <img :src="require('/src/assets/download (1).jpg')" alt="Foto Profil"
-                                class="profile-picture" />
+                            <img :src="require('/src/assets/download (1).jpg')" alt="Foto Profil" class="profile-picture" />
                             <div :class="['dropdown-menu', { show: isProfileDropdownOpen }]">
                                 <div class="dropdown-content">
                                     <div class="profile-card">
@@ -23,11 +21,6 @@
                                             <img :src="require('/src/assets/download (1).jpg')" alt="Foto Profil"
                                                 class="card-profile-picture" />
                                         </div>
-                                        <div class="notification-icon">
-                    <router-link to="/notification"><i class="fa fa-bell"></i>
-                      <span class="notification-count">3</span></router-link>
-                    
-                  </div>
                                         <span class="nickname">Nama Panggilan</span>
                                         <div class="social-icons">
                                             <a href="#" class="social-icon"><i class="fa-brands fa-facebook"></i></a>
@@ -65,28 +58,43 @@
 
             <div class="container1">
                 <h1>Posting</h1>
-                <div class="container2">
-                    <label for="judul">Judul</label>
-                    <textarea v-model="judul" id="judul" placeholder="Judul..."></textarea>
-                </div>
-                <br>
-                <div class="container2">
-                    <label for="deskripsi">Deskripsi</label>
-                    <textarea v-model="deskripsi" id="deskripsi" placeholder="Deskripsimu..."></textarea>
-                </div>
-                <br>
-                <div class="container2">
-                    <label for="link">Link</label>
-                    <textarea v-model="link" id="link" placeholder="Unggah Link..."></textarea>
-                </div>
-                <br>
-                <button class="btn-apply" @click="applyChanges">Terapkan</button>
+                <div class="form-container">
+                    <div class="form-section">
+                        <div class="container2">
+                            <label for="judul">Judul</label>
+                            <textarea v-model="judul" id="judul" placeholder="Judul..."></textarea>
+                        </div>
+                        <br>
+                        <div class="container2">
+                            <label for="deskripsi">Deskripsi</label>
+                            <textarea v-model="deskripsi" id="deskripsi" placeholder="Deskripsimu..."></textarea>
+                        </div>
+                        <br>
+                        <div class="container2">
+                            <label for="link">Link</label>
+                            <textarea v-model="link" id="link" placeholder="Unggah Link..."></textarea>
+                        </div>
+                        <br>
+                        <button class="btn-apply" @click="applyChanges">Terapkan</button>
+                    </div>
 
-                
+                    <div class="preview-section">
+                        <div class="preview-box">
+                            <h2>Hasil Analitik Saya</h2>
+                            <div class="preview-content">
+                                <h3>{{ judul || 'Judul Anda' }}</h3>
+                                <p>{{ deskripsi || 'Deskripsi Anda akan muncul di sini.' }}</p>
+                                <a :href="link || '#'" target="_blank">{{ link || 'Link Anda' }}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <span>Aktifkan Komentar</span>
+                </div>
             </div>  
         </div>
     </body>
 </template>
+
 
 <script>
 export default {
@@ -126,45 +134,7 @@ export default {
     padding: 0;
     box-sizing: border-box;
 }
-.notification-icon {
-    position: absolute;
-    top: 23px;
-    right: 23px;
-    font-size: 20px;
-    color: #fff;
-    background-color: #188754;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
 
-.notification-count {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    background: #fff;
-    color: #e74c3c;
-    font-size: 12px;
-    border-radius: 50%;
-    width: 15px;
-    height: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-}
-.notification-icon:hover {
-  transform: scale(1.1); 
-}
-.notification-icon:active{
-  transform: scale(0.95); 
-}
 body {
     background-color: #F5FFFA;
     color: black;
@@ -735,6 +705,185 @@ select {
 
 .chg-btn.remove:hover {
     background-color: #d32f2f;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #F5FFFA;
+    color: black;
+    font-family: 'Quicksand', sans-serif;
+    height: 100vh;
+    overflow-x: hidden;
+}
+
+.navbar {
+    background-color: #188754;
+    padding: 2rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.brand {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.nav-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.nav-list {
+    display: flex;
+    gap: 1.5rem;
+    background-color: #188754;
+    list-style: none;
+}
+
+.nav-link {
+    font-size: 1rem;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 999px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: black;
+    background-color: white;
+}
+
+.menu-toggle {
+    display: none;
+    font-size: 1.5rem;
+    color: white;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+/* Pratinjau */
+.preview-section {
+    margin-left: 30px;
+    max-width: 400px;
+}
+
+.preview-box {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.preview-box h2 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.preview-content {
+    color: #333;
+}
+
+.preview-content h3 {
+    font-size: 1.5rem;
+    color: #188754;
+}
+
+.preview-content p {
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+.preview-content a {
+    display: block;
+    margin-top: 10px;
+    color: #188754;
+    text-decoration: none;
+}
+
+.preview-content a:hover {
+    text-decoration: underline;
+}
+
+.form-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-section {
+    width: 60%;
+}
+
+.container1 {
+    max-width: 1000px;
+    margin: 0 auto;
+    margin-top: 25px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 40px;
+    box-shadow: 0 6px 8px rgba(86, 86, 86, 0.5);
+}
+
+h1 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+.container2 {
+    background-color: #188754;
+    border-radius: 20px;
+    padding: 15px 15px 13px;
+}
+
+.container2 label {
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-left: 5px;
+}
+
+.btn-apply {
+    background-color: #0095f6;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-weight: 500;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    position: relative;
+    width: 100px;
+}
+
+.btn-apply:hover {
+    background-color: #0077cc;
+}
+
+@media (max-width: 768px) {
+    .form-container {
+        flex-direction: column;
+    }
+
+    .preview-section {
+        margin-left: 0;
+        margin-top: 20px;
+    }
 }
 
 </style>
