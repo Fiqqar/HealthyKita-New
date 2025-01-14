@@ -1,30 +1,36 @@
 <template>
     <div class="d-flex justify-content-center align-items-center vh-100" style="background-color: #f4fdf4;">
-        <div class="card shadow-sm" style="width: 24rem; border-radius: 50px;">
+        <div class="card shadow-sm" style="width: 24rem; border-radius: 40px; height: 478px;">
             <div class="card-body">
-                <h3 class="card-title text-center mb-4">Pertanyaan Mendalam</h3>
-                <div class="mb-3">
-                    <label for="tall" class="form-label">Tinggi Badan</label>
-                    <input type="text" id="tall" class="form-control" name="tall" placeholder="Masukkan Tinggi Badan Kamu" v-model="userData.tall"
+                <h3 class="card-title text-center mb-4" style="font-family: sans-serif;">Pertanyaan Mendalam</h3>
+                <div class="mb-3" style="font-family: monospace;">
+                    <label for="tall" class="form-label" >Tinggi Badan</label>
+                    <input type="text" id="tall" class="form-control" name="tall" placeholder="Masukkan Tinggi Badan Kamu"  v-model="userData.tall"
                         required>
                 </div>
-                <div class="mb-3">
-                    <label for="weight" class="form-label">Berat Badan</label>
+                <div class="mb-3" style="font-family: monospace;">
+                    <label for="weight" class="form-label" >Berat Badan</label>
                     <input type="text" id="weight" class="form-control"
-                        placeholder="Masukkan Berat Badan Kamu" name="weight" v-model="userData.weight" required>
+                        placeholder="Masukkan Berat Badan Kamu"  name="weight" v-model="userData.weight" required>
                 </div>
-                <div class="mb-3">
-                    <label for="birthdate" class="form-label">Masukkan Tanggal Lahir</label>
-                    <input type="date" id="birthdate" class="form-control"
+                <div class="mb-3" style="font-family: monospace; ">
+                    <label for="birthdate" class="form-label" >Masukkan Tanggal Lahir</label>
+                    <input type="date" id="birthdate" class="form-control" 
                         name="birthdate" v-model="userData.birthdate" required>
                 </div>
-                <div class="mb-3">
-                    <label for="intensActivity" class="form-label">Intensitas Aktivitas Dalam Seminggu</label>
-                    <input type="text" id="intensActivity" class="form-control"
-                        placeholder="Intensitas Aktivitas Kamu Dalam Seminggu" name="intensActivity" v-model="userData.intensActivity" required>
+                <div class="mb-3" style="font-family: monospace;">
+                    <label for="intensActivity" class="form-label" >Intensitas Aktivitas Dalam Seminggu</label>
+                    <select name="intensActivity" id="intensActivity" class="form-control" v-model="userData.intensActivity" required>
+                        <option value="" >Pilih Intensitas Aktivitas</option>
+                        <option value="sedikit">Sedikit 1-3</option>
+                        <option value="sedang">Sedang 3-5</option>
+                        <option value="banyak">Banyak 5+</option>
+                    </select>
+                    <!-- <input type="text" id="intensActivity" class="form-control"
+                        placeholder="Intensitas Aktivitas Kamu Dalam Seminggu" name="intensActivity" v-model="userData.intensActivity" required> -->
                 </div>
                 
-                <button type="submit" class="btn btn-success w-100 animate" @click="registerData" :disabled="loading">Kirim</button>
+                <button type="submit" class="btn btn-success w-100 animate" style="border-radius: 40px; font-family: monospace;" @click="registerData" :disabled="loading">Kirim</button>
             </div>
             <div v-if="loading" class="text-center">
                 <p>harap tunggu...</p>
@@ -47,7 +53,8 @@ export default {
                 tall: "",
                 weight: "",
                 intensActivity: "",
-                birthdate: "" 
+                birthdate: "" ,
+
             },
             success: false,
             error: false,
@@ -67,7 +74,7 @@ export default {
                 return;
             }
             axios.post(`${this.arr}/api/signup/user`, {
-                tall: tall,
+                tall: tall, 
                 weight: weight,
                 intensActivity: intensActivity,
                 birthdate: birthdate 
