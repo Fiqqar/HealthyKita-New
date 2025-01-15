@@ -23,9 +23,9 @@
                         class="card-profile-picture" />
                     </div>
                     <div class="notification-icon">
-                    <router-link to="/notification"><i class="fa fa-bell"></i>
-                      <span class="notification-count">3</span></router-link>
-                  </div>
+                      <router-link to="/notification"><i class="fa fa-bell"></i>
+                        <span class="notification-count">3</span></router-link>
+                    </div>
                     <span class="nickname">User.</span>
                     <div class="social-icons">
                       <a href="#" class="social-icon"><i class="fa-brands fa-facebook"></i></a>
@@ -78,13 +78,8 @@
           <div class="options">
             <button class="option" @click="handleStart">Start Quiz</button>
           </div>
-
         </div>
       </div>
-      <!-- <div class="btn-next-container">
-    <button class="btn-next">-></button>
-  </div>
-     -->
     </div>
   </body>
 </template>
@@ -133,12 +128,12 @@ export default {
       if (this.previous) {
         this.$router.push('/quiz')
       } else {
-          this.showWarning = warn.warning
+        this.showWarning = warn.warning
 
-          setTimeout(() => {
-            this.showWarning = false
-          }, 3000)
-        } 
+        setTimeout(() => {
+          this.showWarning = false
+        }, 3000)
+      }
     }
   },
   mounted() {
@@ -156,6 +151,48 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+.notification-icon {
+  position: absolute;
+  top: 23px;
+  right: 23px;
+  font-size: 20px;
+  color: #fff;
+  background-color: #188754;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.notification-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #fff;
+  color: #e74c3c;
+  font-size: 12px;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.notification-icon:hover {
+  transform: scale(1.1);
+}
+
+.notification-icon:active {
+  transform: scale(0.95);
 }
 
 body {
@@ -365,46 +402,6 @@ body {
   height: 80vh;
 }
 
-.notification-icon {
-    position: absolute;
-    top: 23px;
-    right: 23px;
-    font-size: 20px;
-    color: #fff;
-    background-color: #188754;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
-
-.notification-count {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    background: #fff;
-    color: #e74c3c;
-    font-size: 12px;
-    border-radius: 50%;
-    width: 15px;
-    height: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-}
-.notification-icon:hover {
-  transform: scale(1.1); 
-}
-.notification-icon:active{
-  transform: scale(0.95); 
-}
-
 .quiz-card {
   position: relative;
   background-color: #188754;
@@ -453,9 +450,10 @@ body {
 
 .warning-text {
   position: fixed;
+  margin-bottom: 400px;
   text-align: center;
   background-color: red;
-  margin-bottom: 400px;
+
   font-size: 1.2rem;
   z-index: 10;
   border-radius: 10px;
@@ -603,6 +601,7 @@ body {
     padding: 25px;
     padding-top: 39px;
     font-size: 0.9rem;
+
   }
 
   .question-number {
@@ -626,6 +625,12 @@ body {
     padding: 10px 40px;
   }
 
+  .warning-text {
+    margin-bottom: 400px;
+    margin-left: 20px;
+    margin-right: 20px;
+
+  }
 }
 
 @media (max-width: 480px) {
@@ -633,7 +638,9 @@ body {
     width: 100%;
     padding: 20px;
     padding-top: 30px;
-    margin: 20px;
+    margin-bottom: -80px;
+    margin-right: 20px;
+    margin-left: 20px;
   }
 
   .question-number {
@@ -656,6 +663,23 @@ body {
     padding: 9px 30px;
   }
 
+  .warning-text {
+
+    margin-left: 20px;
+    margin-right: 20px;
+
+  }
+
+}
+
+@media (max-width:380px) {}
+
+@media(max-width:340px) {
+
+  .quiz-card {
+    margin-bottom: -50px;
+
+  }
 }
 
 .navbar {
