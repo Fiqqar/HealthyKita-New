@@ -141,7 +141,7 @@
               </div>
             </div>
             <div class="tweet-content">
-              
+
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error cum vero eum nisi sapiente repudiandae
                 quos, voluptatem adipisci neque, atque doloribus suscipit alias assumenda facilis, eius ipsum?
                 Asperiores, eum adipisci. <span class="hashtag">#ANJAY</span></p>
@@ -160,7 +160,7 @@
                 Asperiores, eum adipisci. <span class="hashtag">#ANJAY</span></p>
             </div>
           </div>
-          
+
         </div>
         <div class="post-button-container">
           <button class="post-button">Edit</button><button class="delete-btn" @click="deleteButton">{{ isDelete ?
@@ -697,7 +697,7 @@ body {
   background-color: #ffffff;
   border-radius: 8px;
   padding: 16px;
-  margin: 10px ;
+  margin: 10px;
   max-width: 400px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 }

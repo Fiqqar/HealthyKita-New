@@ -1,4 +1,5 @@
 <template>
+
     <body>
         <div>
             <header class="navbar">
@@ -7,19 +8,25 @@
                     <div class="nav-wrapper">
                         <nav :class="['nav-list', { show: isMenuOpen }]">
                             <router-link to="/home" class="nav-link">Beranda</router-link>
-                            <router-link to="/quiz/:start" class="nav-link">Kuis</router-link>
+                            <router-link to="/quiz/start" class="nav-link">Kuis</router-link>
                         </nav>
                         <button class="menu-toggle" @click="toggleMenu">
                             <i class="fas fa-bars"></i>
                         </button>
                         <div class="user-profile" @click="toggleProfileDropdown">
-                            <img :src="require('/src/assets/download (1).jpg')" alt="Foto Profil" class="profile-picture" />
+                            <img :src="require('/src/assets/download (1).jpg')" alt="Foto Profil"
+                                class="profile-picture" />
                             <div :class="['dropdown-menu', { show: isProfileDropdownOpen }]">
                                 <div class="dropdown-content">
                                     <div class="profile-card">
                                         <div class="profile-card-header">
                                             <img :src="require('/src/assets/download (1).jpg')" alt="Foto Profil"
                                                 class="card-profile-picture" />
+                                        </div>
+                                        <div class="notification-icon">
+                                            <router-link to="/notification"><i class="fa fa-bell"></i>
+                                                <span class="notification-count">3</span></router-link>
+
                                         </div>
                                         <span class="nickname">Nama Panggilan</span>
                                         <div class="social-icons">
@@ -58,49 +65,52 @@
 
             <div class="container1">
                 <h1>Posting</h1>
-                <div class="form-container">
-                    <div class="form-section">
-                        <div class="container2">
-                            <label for="judul">Judul</label>
-                            <textarea v-model="judul" id="judul" placeholder="Judul..."></textarea>
-                        </div>
-                        <br>
-                        <div class="container2">
-                            <label for="deskripsi">Deskripsi</label>
-                            <textarea v-model="deskripsi" id="deskripsi" placeholder="Deskripsimu..."></textarea>
-                        </div>
-                        <br>
-                        <div class="container2">
-                            <label for="link">Link</label>
-                            <textarea v-model="link" id="link" placeholder="Unggah Link..."></textarea>
-                        </div>
-                        <br>
-                        <button class="btn-apply" @click="applyChanges">Terapkan</button>
-                    </div>
-
-                    <div class="preview-section">
-                        <div class="preview-box">
-                            <h2>Hasil Analitik Saya</h2>
-                            <div class="preview-content">
-                                <h3>{{ judul || 'Judul Anda' }}</h3>
-                                <p>{{ deskripsi || 'Deskripsi Anda akan muncul di sini.' }}</p>
-                                <a :href="link || '#'" target="_blank">{{ link || 'Link Anda' }}</a>
-                            </div>
-                        </div>
-                    </div>
-                    <span>Aktifkan Komentar</span>
+                <div class="container2">
+                    <label for="judul">Judul</label>
+                    <textarea v-model="judul" id="judul" placeholder="Judul..."></textarea>
                 </div>
-            </div>  
+                <br>
+                <div class="container2">
+                    <label for="deskripsi">Deskripsi</label>
+                    <textarea v-model="deskripsi" id="deskripsi" placeholder="Deskripsimu..."></textarea>
+                </div>
+                <br>
+                <div class="container2">
+                    <label for="link">Link</label>
+                    <textarea v-model="link" id="link" placeholder="Unggah Link..."></textarea>
+                </div>
+                <br>
+                <div class="toggle-container">
+                    <label class="toggle-label">
+
+                        <input type="checkbox" class="toggle-switch" />
+                        <span>Aktifkan Komentar</span>
+
+                    </label>
+                </div>
+                <div class="preview-section">
+                    <div class="preview-box">
+                        <h2>Hasil Analitik Saya</h2>
+                        <div class="preview-content">
+                            <h3>{{ judul || 'Judul Anda' }}</h3>
+                            <p>{{ deskripsi || 'Deskripsi Anda akan muncul di sini.' }}</p>
+                            <a :href="link || '#'" target="_blank">{{ link || 'Link Anda' }}</a>
+                        </div>
+                    </div>
+                    <br>
+                    <button class="btn-apply" @click="applyChanges">Terapkan</button>
+                </div>
+            </div>
         </div>
     </body>
 </template>
-
 
 <script>
 export default {
     data() {
         return {
             isProfileDropdownOpen: false,
+            isMenuOpen: false,
             judul: '',
         };
     },
@@ -111,21 +121,39 @@ export default {
         toggleMenu() {
             this.isMenuOpen = !this.isMenuOpen;
         },
-        openModal() {
-            this.isModalOpen = true;
+        handleClickOutside(event) {
+            const profileDropdown = this.$el.querySelector(".user-profile");
+            const menuDropdown = this.$el.querySelector(".nav-wrapper");
+            if (
+                profileDropdown &&
+                !profileDropdown.contains(event.target) &&
+                this.isProfileDropdownOpen
+            ) {
+                this.isProfileDropdownOpen = false;
+            }
+            if (
+                menuDropdown &&
+                !menuDropdown.contains(event.target) &&
+                this.isMenuOpen
+            ) {
+                this.isMenuOpen = false;
+            }
         },
-        closeModal() {
-            this.isModalOpen = false;
-        },
-       
+
         applyChanges() {
             console.log('Perubahan diterapkan:', {
                 judul: this.judul,
-                deskripsi:this.deskripsi,
-                link:this.link,
+                deskripsi: this.deskripsi,
+                link: this.link,
             });
-        }
-    }
+        },
+    },
+    mounted() {
+        document.addEventListener("click", this.handleClickOutside);
+    },
+    beforeUnmount() {
+        document.removeEventListener("click", this.handleClickOutside);
+    },
 };
 </script>
 <style scoped>
@@ -133,6 +161,158 @@ export default {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+.toggle-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+    width: 100%;
+    padding: 10px 0;
+}
+
+.toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: black;
+}
+
+.toggle-switch {
+    width: 40px;
+    height: 20px;
+    appearance: none;
+    background-color: #ccc;
+    border-radius: 20px;
+    position: relative;
+    outline: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.toggle-switch:checked {
+    background-color: #188754;
+}
+
+.toggle-switch:before {
+    content: "";
+    width: 18px;
+    height: 18px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    transition: transform 0.3s ease;
+}
+
+.toggle-switch:checked:before {
+    transform: translateX(20px);
+}
+
+/* Pratinjau */
+.preview-section {
+    margin: 30px auto;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.preview-box {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.preview-box h2 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    font-weight: bold;
+    text-align: center;
+    border-bottom: gray solid 1px;
+}
+
+.preview-content {
+    color: #333;
+}
+
+.preview-content h3 {
+    font-size: 1.5rem;
+    color: #188754;
+}
+
+.preview-content p {
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+.preview-content a {
+    display: block;
+    margin-top: 10px;
+    color: #188754;
+    text-decoration: none;
+}
+
+.preview-content a:hover {
+    text-decoration: underline;
+}
+
+.form-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-section {
+    width: 60%;
+}
+
+.notification-icon {
+    position: absolute;
+    top: 23px;
+    right: 23px;
+    font-size: 20px;
+    color: #fff;
+    background-color: #188754;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.notification-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #fff;
+    color: #e74c3c;
+    font-size: 12px;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.notification-icon:hover {
+    transform: scale(1.1);
+}
+
+.notification-icon:active {
+    transform: scale(0.95);
 }
 
 body {
@@ -353,7 +533,8 @@ body {
 .container1 {
     max-width: 600px;
     margin: 0 auto;
-    margin-top: 25px;
+    margin-bottom: 25px;
+    margin-top: 20px;
     background-color: white;
     padding: 20px;
     border-radius: 40px;
@@ -365,94 +546,10 @@ h1 {
     margin-bottom: 20px;
 }
 
-
-.profile-header {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 20px;
-    position: relative;
-    background-color: #188754;
-    border-radius: 30px;
-    padding: 15px 15px 15px;
-}
-
-.profile-image {
-    width: 80px;
-    height: 70px;
-    border-radius: 50%;
-    background-color: #eee;
-    margin-right: 20px;
-    margin-top: 7px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    position: relative;
-    cursor: pointer;
-}
-
-.profile-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.profile-image input[type="file"] {
-    display: none;
-}
-
-.profile-image .photo-placeholder {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #999;
-    font-weight: 500;
-}
-
-.profile-info {
-
-    flex-grow: 1;
-}
-
-.profile-info input[type="text"] {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #eee;
-    border-radius: 40px;
-    box-sizing: border-box;
-    margin-bottom: 5px;
-    background-color: #fafafa;
-}
-
-.profile-info input[type="text"]:focus {
-    outline: none;
-    border-color: #ddd;
-}
-
-
-.profile-header .chg-btn {
-    background-color: #0095f6;
-    color: white;
-    border: none;
-    border-radius: 50px;
-    padding: 8px 16px;
-    cursor: pointer;
-    font-weight: 500;
-    bottom: 0;
-
-    margin-top: 15px;
-    margin-left: 5px;
-    position: relative;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.profile-header .chg-btn:hover {
-    background-color: #0077cc;
-}
-
 .btn-apply {
-    background-color: #0095f6;
+    margin: 20px auto 0;
+    display: block;
+    background-color: #0363a4;
     color: white;
     border: none;
     border-radius: 25px;
@@ -460,12 +557,17 @@ h1 {
     cursor: pointer;
     font-weight: 500;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    position: relative;
     width: 100px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .btn-apply:hover {
     background-color: #0077cc;
+    transform: scale(1.05);
+}
+
+.btn-apply:active {
+    transform: scale(0.95);
 }
 
 
@@ -498,70 +600,6 @@ select:focus {
 textarea {
     resize: vertical;
     min-height: 80px;
-}
-
-select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    color: gray;
-    background-color: white;
-
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 15px;
-
-    background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
-
-    background-repeat: no-repeat;
-    background-position: right 8px center;
-    padding-right: 30px;
-}
-
-
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: fit-content;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.modal-content button {
-    padding: 0.7rem 1rem;
-    border: none;
-    background: none;
-    border-top: 1px solid lightgray;
-    font-size: large;
-    cursor: pointer;
-}
-
-.modal-content button:first-child {
-    border: none;
-}
-
-.modal-content button.red {
-    color: red;
 }
 
 .container2 {
@@ -653,237 +691,4 @@ select {
         margin-top: 20px;
     }
 }
-
-.button-group {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
-}
-
-.chg-btn.remove {
-    background-color: #ff4d4d;
-    color: white;
-}
-
-.chg-btn.remove:hover {
-    background-color: #cc0000;
-}
-.profile-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
-}
-
-.file-label {
-    cursor: pointer;
-}
-
-.file-label input[type="file"] {
-    display: none;
-}
-
-.chg-btn {
-    background-color: #0095f6;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    padding: 8px 16px;
-    cursor: pointer;
-    font-weight: 500;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    text-align: center;
-    transition: background-color 0.3s ease;
-}
-
-.chg-btn:hover {
-    background-color: #0077cc;
-}
-
-.chg-btn.remove {
-    background-color: #f44336;
-}
-
-.chg-btn.remove:hover {
-    background-color: #d32f2f;
-}
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    background-color: #F5FFFA;
-    color: black;
-    font-family: 'Quicksand', sans-serif;
-    height: 100vh;
-    overflow-x: hidden;
-}
-
-.navbar {
-    background-color: #188754;
-    padding: 2rem 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.navbar .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.brand {
-    color: white;
-    font-size: 1.5rem;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.nav-wrapper {
-    display: flex;
-    align-items: center;
-}
-
-.nav-list {
-    display: flex;
-    gap: 1.5rem;
-    background-color: #188754;
-    list-style: none;
-}
-
-.nav-link {
-    font-size: 1rem;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 999px;
-    text-decoration: none;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.nav-link:hover {
-    color: black;
-    background-color: white;
-}
-
-.menu-toggle {
-    display: none;
-    font-size: 1.5rem;
-    color: white;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-}
-
-/* Pratinjau */
-.preview-section {
-    margin-left: 30px;
-    max-width: 400px;
-}
-
-.preview-box {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.preview-box h2 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-}
-
-.preview-content {
-    color: #333;
-}
-
-.preview-content h3 {
-    font-size: 1.5rem;
-    color: #188754;
-}
-
-.preview-content p {
-    font-size: 1rem;
-    margin-top: 10px;
-}
-
-.preview-content a {
-    display: block;
-    margin-top: 10px;
-    color: #188754;
-    text-decoration: none;
-}
-
-.preview-content a:hover {
-    text-decoration: underline;
-}
-
-.form-container {
-    display: flex;
-    justify-content: space-between;
-}
-
-.form-section {
-    width: 60%;
-}
-
-.container1 {
-    max-width: 1000px;
-    margin: 0 auto;
-    margin-top: 25px;
-    background-color: white;
-    padding: 20px;
-    border-radius: 40px;
-    box-shadow: 0 6px 8px rgba(86, 86, 86, 0.5);
-}
-
-h1 {
-    font-size: 1.5em;
-    margin-bottom: 20px;
-}
-
-.container2 {
-    background-color: #188754;
-    border-radius: 20px;
-    padding: 15px 15px 13px;
-}
-
-.container2 label {
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
-    margin-left: 5px;
-}
-
-.btn-apply {
-    background-color: #0095f6;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    padding: 8px 16px;
-    cursor: pointer;
-    font-weight: 500;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    position: relative;
-    width: 100px;
-}
-
-.btn-apply:hover {
-    background-color: #0077cc;
-}
-
-@media (max-width: 768px) {
-    .form-container {
-        flex-direction: column;
-    }
-
-    .preview-section {
-        margin-left: 0;
-        margin-top: 20px;
-    }
-}
-
 </style>

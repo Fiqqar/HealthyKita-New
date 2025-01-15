@@ -4,24 +4,25 @@
             <div class="card-body">
                 <h3 class="card-title text-center mb-4" style="font-family: sans-serif;">Pertanyaan Mendalam</h3>
                 <div class="mb-3" style="font-family: monospace;">
-                    <label for="tall" class="form-label" >Tinggi Badan</label>
-                    <input type="text" id="tall" class="form-control" name="tall" placeholder="Masukkan Tinggi Badan Kamu"  v-model="userData.tall"
+                    <label for="tall" class="form-label">Tinggi Badan</label>
+                    <input type="text" id="tall" class="form-control" name="tall"
+                        placeholder="Masukkan Tinggi Badan Kamu" v-model="userData.tall" required>
+                </div>
+                <div class="mb-3" style="font-family: monospace;">
+                    <label for="weight" class="form-label">Berat Badan</label>
+                    <input type="text" id="weight" class="form-control" placeholder="Masukkan Berat Badan Kamu"
+                        name="weight" v-model="userData.weight" required>
+                </div>
+                <div class="mb-3" style="font-family: monospace; ">
+                    <label for="birthdate" class="form-label">Masukkan Tanggal Lahir</label>
+                    <input type="date" id="birthdate" class="form-control" name="birthdate" v-model="userData.birthdate"
                         required>
                 </div>
                 <div class="mb-3" style="font-family: monospace;">
-                    <label for="weight" class="form-label" >Berat Badan</label>
-                    <input type="text" id="weight" class="form-control"
-                        placeholder="Masukkan Berat Badan Kamu"  name="weight" v-model="userData.weight" required>
-                </div>
-                <div class="mb-3" style="font-family: monospace; ">
-                    <label for="birthdate" class="form-label" >Masukkan Tanggal Lahir</label>
-                    <input type="date" id="birthdate" class="form-control" 
-                        name="birthdate" v-model="userData.birthdate" required>
-                </div>
-                <div class="mb-3" style="font-family: monospace;">
-                    <label for="intensActivity" class="form-label" >Intensitas Aktivitas Dalam Seminggu</label>
-                    <select name="intensActivity" id="intensActivity" class="form-control" v-model="userData.intensActivity" required>
-                        <option value="" >Pilih Intensitas Aktivitas</option>
+                    <label for="intensActivity" class="form-label">Intensitas Aktivitas Dalam Seminggu</label>
+                    <select name="intensActivity" id="intensActivity" class="form-control"
+                        v-model="userData.intensActivity" required>
+                        <option value="">Pilih Intensitas Aktivitas</option>
                         <option value="sedikit">Sedikit 1-3</option>
                         <option value="sedang">Sedang 3-5</option>
                         <option value="banyak">Banyak 5+</option>
@@ -29,8 +30,10 @@
                     <!-- <input type="text" id="intensActivity" class="form-control"
                         placeholder="Intensitas Aktivitas Kamu Dalam Seminggu" name="intensActivity" v-model="userData.intensActivity" required> -->
                 </div>
-                
-                <button type="submit" class="btn btn-success w-100 animate" style="border-radius: 40px; font-family: monospace;" @click="registerData" :disabled="loading">Kirim</button>
+
+                <button type="submit" class="btn btn-success w-100 animate"
+                    style="border-radius: 40px; font-family: monospace;" @click="registerData"
+                    :disabled="loading">Kirim</button>
             </div>
             <div v-if="loading" class="text-center">
                 <p>harap tunggu...</p>
@@ -53,7 +56,7 @@ export default {
                 tall: "",
                 weight: "",
                 intensActivity: "",
-                birthdate: "" ,
+                birthdate: "",
 
             },
             success: false,
@@ -66,35 +69,35 @@ export default {
         registerData() {
             this.success = false;
             this.error = false;
-            this.loading = true;  
+            this.loading = true;
             const { tall, weight, intensActivity, birthdate } = this.userData;
             if (!tall || !weight || !intensActivity || !birthdate) {
                 alert("Please fill out all required fields.");
-                this.loading = false;  
+                this.loading = false;
                 return;
             }
-            axios.post(`${this.arr}/api/signup/user`, {
-                tall: tall, 
+            axios.post(`${ this.arr } / api / signup / user`, {
+                tall: tall,
                 weight: weight,
                 intensActivity: intensActivity,
-                birthdate: birthdate 
+                birthdate: birthdate
             }, { withCredentials: true })
-            .then(async (response) => {
-                this.success = true;
-                this.response = response.data;
-                this.userData = {
-                    tall: "",
-                    weight: "",
-                    intensActivity: "",
-                    birthdate: "" 
-                };
-                this.loading = false;  
-            })
-            .catch((error) => {
-                console.log(error);
-                this.error = true;
-                this.loading = false;  
-            });   
+                .then(async (response) => {
+                    this.success = true;
+                    this.response = response.data;
+                    this.userData = {
+                        tall: "",
+                        weight: "",
+                        intensActivity: "",
+                        birthdate: ""
+                    };
+                    this.loading = false;
+                })
+                .catch((error) => {
+                    console.log(error);
+                    this.error = true;
+                    this.loading = false;
+                });
         }
     },
 }
