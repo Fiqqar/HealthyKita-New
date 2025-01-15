@@ -63,7 +63,7 @@
       <div class="tweet">
   <div class="tweet-header">
     <div class="profile-pic">
-      <img src="https://via.placeholder.com/50" alt="Profile Picture">
+      <img :src="require('/src/assets/download (1).jpg')" alt="Profile Picture">
     </div>
     <div class="user-info">
       <span class="name">Username<i class="fa-solid fa-hand-holding-medical verified-icon"></i></span>
@@ -97,7 +97,7 @@
   </div>
   <div class="tweet-header2">
     <div class="profile-pic2">
-      <img src="https://via.placeholder.com/50" alt="Profile Picture">
+      <img :src="require('/src/assets/download.jpeg')" alt="Profile Picture">
     </div>
     <div class="user-info2">
       <span class="name2">Username<i class="fa-solid fa-hand-holding-medical verified-icon2"></i></span>
@@ -117,7 +117,7 @@
   </div>
   <div class="tweet-header2">
     <div class="profile-pic2">
-      <img src="https://via.placeholder.com/50" alt="Profile Picture">
+      <img :src="require('/src/assets/download (1).jpg')" alt="Profile Picture">
     </div>
     <div class="user-info2">
       <span class="name2">Username<i class="fa-solid fa-hand-holding-medical verified-icon2"></i></span>
@@ -429,13 +429,14 @@ color: #999;
 
 /* Tweet Section */
 .content {
-display: flex;
-justify-content: center;
-align-items: center;
-height: 80vh;
-box-sizing: border-box;
-margin-top: 45px;
-margin-bottom: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Changed from center to better handle content */
+  min-height: 80vh;
+  padding: 20px;
+  margin-top: 45px;
+  margin-bottom: 50px;
+  box-sizing: border-box;
 }
 
 .tweet {
@@ -445,19 +446,18 @@ border-radius: 10px;
 width: 600px;
 padding: 50px;
 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
-width: 60%; 
-max-width: 700px;
-height: 700px;
-max-height: 1000px;
-border: 1px solid #e1e8ed;
-margin: 20px auto; 
-padding: 20px;
-
-background-color: white; 
-border-radius: 10px; 
-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-font-size: 1.1rem; 
-line-height: 1.6; 
+width: 90%; /* Changed from 60% to be more responsive */
+  max-width: 700px;
+  height: auto; /* Changed from fixed height to auto */
+  min-height: 200px; /* Added minimum height */
+  border: 1px solid #e1e8ed;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-size: 1.1rem;
+  line-height: 1.6;
 }
 
 .tweet-header {
@@ -490,11 +490,16 @@ display: block;
 font-size: 14px;
 color: #657786;
 }
-
+.tweet-content{
+  width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
 .tweet-content p {
 font-size: 15px;
 line-height: 1.5;
 color: #14171a;
+margin: 10px 0;
 }
 
 .hashtag {
@@ -650,9 +655,8 @@ transform: scale(1.05);
 
 /* Comment Input */
 .comment-section {
-margin-top: 13px;
-margin-top: 3px;
-margin-bottom: 10px;
+  width: 100%;
+  margin: 13px 0;
 padding-bottom: 10px;
 border-bottom: 1px solid #e1e8ed;
 }
@@ -664,6 +668,7 @@ width: 100%;
 background-color: #f5f8fa;
 border-radius: 30px;
 padding: 5px 10px;
+box-sizing: border-box;
 }
 
 
@@ -684,6 +689,7 @@ font-size: 0.9rem;
 cursor: pointer; 
 transition: background-color 0.3s ease, transform 0.2s ease; 
 margin-left: 10px;
+border: none;
 }
 
 .post-btn:hover {
@@ -812,6 +818,63 @@ color: #657786;
   }
   .dropdown-menu{
       margin-top: 20px;
+  }
+}
+@media (max-width: 768px) {
+  .tweet {
+    width: 95%;
+    padding: 15px;
+    margin: 10px auto;
+  }
+
+  .tweet-content p {
+    font-size: 14px;
+  }
+
+  .comment-input {
+    font-size: 14px;
+  }
+
+  .post-btn {
+    padding: 6px 15px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tweet {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .tweet-header {
+    margin-bottom: 10px;
+  }
+
+  .profile-pic img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .user-info .name {
+    font-size: 14px;
+  }
+
+  .user-info .username {
+    font-size: 12px;
+  }
+
+  .tweet-content p {
+    font-size: 13px;
+  }
+
+  .comment-input-wrapper {
+    padding: 3px 8px;
+  }
+
+  .post-btn {
+    padding: 5px 12px;
+    font-size: 0.75rem;
   }
 }
 .navbar {
