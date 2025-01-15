@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid bg-light min-vh-100 d-flex align-items-center justify-content-center py-5">
+    <div class="container-fluid bg-light min-vh-100 d-flex align-items-center justify-content-center py-5" style="font-family: monospace;">
         <div class="card shadow-sm" style="max-width: 400px;">
             <div class="card-body p-4">
                 <div class="text-center mb-4">
@@ -35,7 +35,7 @@
                         <a href="#" class="text-success text-decoration-none">Lupa password?</a>
                     </div>
 
-                    <button type="submit" class="btn btn-success w-100 animate" @click="loginMethods">
+                    <button type="submit" class="btn btn-success w-100 animate" style="border-radius: 40px;" @click="loginMethods">
                         Login
                     </button>
                     <h3 class="text-center" v-if="success">berhasil</h3>
