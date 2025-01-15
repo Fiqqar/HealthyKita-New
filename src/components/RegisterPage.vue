@@ -1,8 +1,8 @@
 <template>
-    <div class="d-flex justify-content-center align-items-center vh-100" style="background-color: #f4fdf4;">
+    <div class="d-flex justify-content-center align-items-center vh-100" style="background-color: #f4fdf4; font-family: monospace;">
         <div class="card shadow-sm" style="width: 24rem; border-radius: 50px;">
-            <div class="card-body">
-                <h3 class="card-title text-center mb-4">Register</h3>
+            <div class="card-body" >
+                <h3 class="card-title text-center mb-4" style="font-family: sans-serif; font-weight: 545;">Register</h3>
                 <div class="mb-3">
                     <label for="name" class="form-label">Nama Lengkap</label>
                     <input type="text" id="name" class="form-control" name="username" placeholder="Masukkan nama mu" v-model="userData.username"
