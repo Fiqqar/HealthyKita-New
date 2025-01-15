@@ -49,6 +49,8 @@
 
 
 <script>
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 import axios from 'axios';
 import textFile from '!!raw-loader!./file.txt';
 let arr;
@@ -73,7 +75,10 @@ export default {
             this.error = false;
             const { username, password, rememberMe } = this.loginData;
             if (!username || !password) {
-                alert("Please fill out all required fields.");
+                toast.error("Isi semua kolom dibawah!", {
+                    autoClose: 3000,
+                    position: toast.POSITION.TOP_LEFT,
+                });
                 return;
             }
             axios.post(`${this.arr}/api/login/user`, {

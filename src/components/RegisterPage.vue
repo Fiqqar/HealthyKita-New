@@ -1,29 +1,31 @@
 <template>
-    <div class="d-flex justify-content-center align-items-center vh-100" style="background-color: #f4fdf4; font-family: monospace;">
+    <div class="d-flex justify-content-center align-items-center vh-100"
+        style="background-color: #f4fdf4; font-family: monospace;">
         <div class="card shadow-sm" style="width: 24rem; border-radius: 50px;">
-            <div class="card-body" >
+            <div class="card-body">
                 <h3 class="card-title text-center mb-4" style="font-family: sans-serif; font-weight: 545;">Register</h3>
                 <div class="mb-3">
                     <label for="name" class="form-label">Nama Lengkap</label>
-                    <input type="text" id="name" class="form-control" name="username" placeholder="Masukkan nama mu" v-model="userData.username"
-                        required>
+                    <input type="text" id="name" class="form-control" name="username" placeholder="Masukkan nama mu"
+                        v-model="userData.username" required>
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Alamat Email</label>
-                    <input type="email" id="email" class="form-control"
-                        placeholder="emailmu@example.com" name="email" v-model="userData.email" required>
+                    <input type="email" id="email" class="form-control" placeholder="emailmu@example.com" name="email"
+                        v-model="userData.email" required>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" id="password" class="form-control"
-                        placeholder="Masukkan Password" name="password" v-model="userData.password" required>
+                    <input type="password" id="password" class="form-control" placeholder="Masukkan Password"
+                        name="password" v-model="userData.password" required>
                 </div>
                 <div class="mb-3">
                     <label for="confirmPassword" class="form-label">Konfirmasi Password</label>
-                    <input type="password" id="confirmPassword" class="form-control"
-                        placeholder="Konfirmasi Password" name="confirmpw" v-model="userData.confirmpw" required>
+                    <input type="password" id="confirmPassword" class="form-control" placeholder="Konfirmasi Password"
+                        name="confirmpw" v-model="userData.confirmpw" required>
                 </div>
-                <button type="submit" class="btn btn-success w-100 animate" @click="registerData" :disabled="loading">Register</button>
+                <button type="submit" class="btn btn-success w-100 animate" @click="registerData"
+                    :disabled="loading">Register</button>
                 <div class="text-center mt-3">
                     <!-- Ikon Google -->
                     <div class="text-center">
@@ -44,6 +46,7 @@
 </template>
 
 <script>
+import { toast } from "vue3-toastify";
 import axios from 'axios';
 import textFile from '!!raw-loader!./file.txt';
 export default {
@@ -69,39 +72,46 @@ export default {
             this.error = false;
             this.loading = true;  // Start loading
             const { username, email, password, confirmpw } = this.userData;
-            if (!username || !password || !email || !confirmpw){
-                alert("Please fill out all required fields.");
+            if (!username || !password || !email || !confirmpw) {
+                toast.error("Isi semua kolom dibawah!", {
+                    autoClose: 3000,
+                    position: toast.POSITION.TOP_LEFT,
+                });
                 this.loading = false;  // Stop loading if validation fails
                 return;
             }
             if (password !== confirmpw) {
-                alert("Passwords do not match.");
+                toast.error("Password tidak sama!", {
+                    autoClose: 3000,
+                    position: toast.POSITION.TOP_LEFT,
+                });
                 this.loading = false;  // Stop loading if passwords don't match
                 return;
             }
             axios.post(`${this.arr}/api/signup/user`, {
                 username: username,
                 email: email,
-                password: password,  
-            },{withCredentials:true
-})
-            
-            .then(async (response) => {
-                this.success = true;
-                this.response = response.data;
-                this.userData = {
-                    username: "",
-                    email: "",
-                    password: "",
-                    confirmpw: ""
-                };
-                this.loading = false;  // Stop loading when request is successful
+                password: password,
+            }, {
+                withCredentials: true
             })
-            .catch((error) => {
-                console.log(error);
-                this.error = true;
-                this.loading = false;  // Stop loading if there's an error
-            });   
+
+                .then(async (response) => {
+                    this.success = true;
+                    this.response = response.data;
+                    this.userData = {
+                        username: "",
+                        email: "",
+                        password: "",
+                        confirmpw: ""
+                    };
+                    this.loading = false;  // Stop loading when request is successful
+                })
+                .catch((error) => {
+                    console.log(error);
+                    this.error = true;
+                    this.loading = false;  // Stop loading if there's an error
+                });
         }
     },
 }
